@@ -15,8 +15,8 @@ window.renderStatistics = function(ctx, names, times) {
   ctx.textBaseline = 'hanging';
   ctx.textAlign = 'center';
   ctx.fillStyle = 'black';
-  ctx.fillText('Ура, Вы победили!', BALOON_X + 20, BALOON_Y + 20);
-  ctx.fillText('Список результатов:', BALOON_X + 20, BALOON_Y + 40);
+  ctx.fillText('Ура, Вы победили!', BALOON_X + BALOON_WIDTH / 2, BALOON_Y + 10);
+  ctx.fillText('Список результатов:', BALOON_X + BALOON_WIDTH / 2, BALOON_Y + 30);
 
 
 }
