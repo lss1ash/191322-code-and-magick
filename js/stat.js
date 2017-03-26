@@ -37,10 +37,30 @@ window.renderStatistics = function(ctx, names, times) {
   // Посчитаем, сколько можно отобразить миллисекунд на 1px гистограммы
   var step = Math.floor(maxTime / HISTOGRAM_HEIGHT);
 
-  // Рисуем столбцы и пишем текст
+  // Рисуем колонки и пишем текст
+  ctx.textAlign = 'start';
   for(i = 0; i < times.length; i++) {
-    ctx.fillStyle = 'black';
+
+    // Высота текущей колонки
     var columnHeight = Math.floor(times[i] / step);
-    ctx.fillRect(BALOON_X + COLUMN_LEFT_SPACE + i * (COLUMN_WIDTH + COLUMN_INDENT), BALOON_Y + BALOON_HEIGHT - columnHeight - COLUMN_BOTTOM_SPACE, COLUMN_WIDTH, columnHeight);
+
+    // Посчитаем размеры и запомним для будущих вызовов
+    var columnX = BALOON_X + COLUMN_LEFT_SPACE + i * (COLUMN_WIDTH + COLUMN_INDENT);
+    var columnY = BALOON_Y + BALOON_HEIGHT - COLUMN_BOTTOM_SPACE;
+
+    // Цвет колонки
+    if(names[i] === 'Вы') {
+      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+    } else {
+      ctx.fillStyle = 'black';
+    }
+
+    // Рисуем колонку и подписи к ней
+    ctx.fillRect(columnX, columnY - columnHeight, COLUMN_WIDTH, columnHeight);
+
+    // Цвет текста
+    ctx.fillStyle = 'black';
+    ctx.fillText(names[i], columnX, columnY + 10);
+    ctx.fillText(Math.round(times[i]), columnX, columnY - columnHeight - 20);
   }
 }
