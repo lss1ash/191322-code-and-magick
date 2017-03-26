@@ -11,12 +11,43 @@ window.renderStatistics = function(ctx, names, times) {
   var COLUMN_BOTTOM_SPACE = 40; // Отспут колонки от нижнего края облачка
   var COLUMN_LEFT_SPACE = 40; // Отспут колонки от левого края облачка
   var HISTOGRAM_HEIGHT = 150; // Высота гистограммы
+
+  // Просто прямоугольничек в качестве облачка
+  // // Тень под облачком
+  // ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+  // ctx.fillRect(BALOON_X + 10, BALOON_Y + 10, BALOON_WIDTH, BALOON_HEIGHT);
+  // // Облачко
+  // ctx.fillStyle = 'white';
+  // ctx.fillRect(BALOON_X, BALOON_Y, BALOON_WIDTH, BALOON_HEIGHT);
+
   // Тень под облачком
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-  ctx.fillRect(BALOON_X + 10, BALOON_Y + 10, BALOON_WIDTH, BALOON_HEIGHT);
+  var quadraticStep = 20;
+  ctx.beginPath();
+  ctx.moveTo(BALOON_X + 10, BALOON_Y + quadraticStep + 10);
+  ctx.quadraticCurveTo(BALOON_X + 10, BALOON_Y + 10, BALOON_X + quadraticStep + 10, BALOON_Y + 10);
+  ctx.lineTo(BALOON_X + BALOON_WIDTH - quadraticStep + 10, BALOON_Y + 10);
+  ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH + 10, BALOON_Y + 10, BALOON_X + BALOON_WIDTH + 10, BALOON_Y + quadraticStep + 10);
+  ctx.lineTo(BALOON_X + BALOON_WIDTH + 10, BALOON_Y + BALOON_HEIGHT - quadraticStep + 10);
+  ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH + 10, BALOON_Y + BALOON_HEIGHT + 10, BALOON_X + BALOON_WIDTH - quadraticStep + 10, BALOON_Y + + BALOON_HEIGHT + 10);
+  ctx.lineTo(BALOON_X + quadraticStep + 10, BALOON_Y + BALOON_HEIGHT + 10);
+  ctx.quadraticCurveTo(BALOON_X + 10, BALOON_Y + BALOON_HEIGHT + 10, BALOON_X + 10, BALOON_Y + BALOON_HEIGHT - quadraticStep + 10);
+  ctx.fill();
+
   // Облачко
   ctx.fillStyle = 'white';
-  ctx.fillRect(BALOON_X, BALOON_Y, BALOON_WIDTH, BALOON_HEIGHT);
+  ctx.beginPath();
+  ctx.moveTo(BALOON_X, BALOON_Y + quadraticStep);
+  ctx.quadraticCurveTo(BALOON_X, BALOON_Y, BALOON_X + quadraticStep, BALOON_Y);
+  ctx.lineTo(BALOON_X + BALOON_WIDTH - quadraticStep, BALOON_Y);
+  ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH, BALOON_Y, BALOON_X + BALOON_WIDTH, BALOON_Y + quadraticStep);
+  ctx.lineTo(BALOON_X + BALOON_WIDTH, BALOON_Y + BALOON_HEIGHT - quadraticStep);
+  ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH, BALOON_Y + BALOON_HEIGHT, BALOON_X + BALOON_WIDTH - quadraticStep, BALOON_Y + + BALOON_HEIGHT);
+  ctx.lineTo(BALOON_X + quadraticStep, BALOON_Y + BALOON_HEIGHT);
+  ctx.quadraticCurveTo(BALOON_X, BALOON_Y + BALOON_HEIGHT, BALOON_X, BALOON_Y + BALOON_HEIGHT - quadraticStep);
+  ctx.lineTo(BALOON_X, BALOON_Y + quadraticStep);
+  ctx.fill();
+  ctx.stroke();
 
   // Текст
   ctx.font = '16px PT Mono';
@@ -52,7 +83,7 @@ window.renderStatistics = function(ctx, names, times) {
     if(names[i] === 'Вы') {
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
     } else {
-      ctx.fillStyle = 'black';
+      ctx.fillStyle = 'rgba(0, 0, 255, ' + Math.random() + ')';
     }
 
     // Рисуем колонку и подписи к ней
@@ -60,6 +91,8 @@ window.renderStatistics = function(ctx, names, times) {
 
     // Цвет текста
     ctx.fillStyle = 'black';
+
+    // Пишем текст
     ctx.fillText(names[i], columnX, columnY + 10);
     ctx.fillText(Math.round(times[i]), columnX, columnY - columnHeight - 20);
   }
