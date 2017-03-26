@@ -8,8 +8,9 @@ window.renderStatistics = function(ctx, names, times) {
   var BALOON_HEIGHT = 270;// Высота облачка
   var COLUMN_WIDTH = 40; // Ширина колонки статистики
   var COLUMN_INDENT = 50; // Расстояние между колонками
+  var COLUMN_BOTTOM_SPACE = 40; // Отспут колонки от нижнего края облачка
+  var COLUMN_LEFT_SPACE = 40; // Отспут колонки от левого края облачка
   var HISTOGRAM_HEIGHT = 150; // Высота гистограммы
-
   // Тень под облачком
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
   ctx.fillRect(BALOON_X + 10, BALOON_Y + 10, BALOON_WIDTH, BALOON_HEIGHT);
@@ -32,9 +33,14 @@ window.renderStatistics = function(ctx, names, times) {
       maxTime = times[i];
     }
   }
-  var step = maxTime / (HISTOGRAM_HEIGHT - 40);
 
+  // Посчитаем, сколько можно отобразить миллисекунд на 1px гистограммы
+  var step = Math.floor(maxTime / HISTOGRAM_HEIGHT);
+
+  // Рисуем столбцы и пишем текст
   for(i = 0; i < times.length; i++) {
     ctx.fillStyle = 'black';
-    ctx.fillRect(BALOON_X, BALOON_Y + BALOON_HEIGHT - , BALOON_WIDTH, BALOON_HEIGHT);
+    var columnHeight = Math.floor(times[i] / step);
+    ctx.fillRect(BALOON_X + COLUMN_LEFT_SPACE + i * (COLUMN_WIDTH + COLUMN_INDENT), BALOON_Y + BALOON_HEIGHT - columnHeight - COLUMN_BOTTOM_SPACE, COLUMN_WIDTH, columnHeight);
+  }
 }
