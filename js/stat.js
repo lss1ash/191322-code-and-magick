@@ -1,6 +1,6 @@
 'use strict';
 
-window.renderStatistics = function(ctx, names, times) {
+window.renderStatistics = function (ctx, names, times) {
   // Определим параметры
   var BALOON_X = 100; // Координата X начала облачка
   var BALOON_Y = 10;  // Координата Y начала облачка
@@ -29,7 +29,7 @@ window.renderStatistics = function(ctx, names, times) {
   ctx.lineTo(BALOON_X + BALOON_WIDTH - quadraticStep + 10, BALOON_Y + 10);
   ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH + 10, BALOON_Y + 10, BALOON_X + BALOON_WIDTH + 10, BALOON_Y + quadraticStep + 10);
   ctx.lineTo(BALOON_X + BALOON_WIDTH + 10, BALOON_Y + BALOON_HEIGHT - quadraticStep + 10);
-  ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH + 10, BALOON_Y + BALOON_HEIGHT + 10, BALOON_X + BALOON_WIDTH - quadraticStep + 10, BALOON_Y + + BALOON_HEIGHT + 10);
+  ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH + 10, BALOON_Y + BALOON_HEIGHT + 10, BALOON_X + BALOON_WIDTH - quadraticStep + 10, BALOON_Y + +BALOON_HEIGHT + 10);
   ctx.lineTo(BALOON_X + quadraticStep + 10, BALOON_Y + BALOON_HEIGHT + 10);
   ctx.quadraticCurveTo(BALOON_X + 10, BALOON_Y + BALOON_HEIGHT + 10, BALOON_X + 10, BALOON_Y + BALOON_HEIGHT - quadraticStep + 10);
   ctx.fill();
@@ -42,7 +42,7 @@ window.renderStatistics = function(ctx, names, times) {
   ctx.lineTo(BALOON_X + BALOON_WIDTH - quadraticStep, BALOON_Y);
   ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH, BALOON_Y, BALOON_X + BALOON_WIDTH, BALOON_Y + quadraticStep);
   ctx.lineTo(BALOON_X + BALOON_WIDTH, BALOON_Y + BALOON_HEIGHT - quadraticStep);
-  ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH, BALOON_Y + BALOON_HEIGHT, BALOON_X + BALOON_WIDTH - quadraticStep, BALOON_Y + + BALOON_HEIGHT);
+  ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH, BALOON_Y + BALOON_HEIGHT, BALOON_X + BALOON_WIDTH - quadraticStep, BALOON_Y + +BALOON_HEIGHT);
   ctx.lineTo(BALOON_X + quadraticStep, BALOON_Y + BALOON_HEIGHT);
   ctx.quadraticCurveTo(BALOON_X, BALOON_Y + BALOON_HEIGHT, BALOON_X, BALOON_Y + BALOON_HEIGHT - quadraticStep);
   ctx.lineTo(BALOON_X, BALOON_Y + quadraticStep);
@@ -59,8 +59,8 @@ window.renderStatistics = function(ctx, names, times) {
 
   // Колонки статистики
   // Найдём максимальное время
-  for(var i = 0, maxTime = 0; i < times.length; i++) {
-    if(maxTime < times[i]) {
+  for (var i = 0, maxTime = 0; i < times.length; i++) {
+    if (maxTime < times[i]) {
       maxTime = times[i];
     }
   }
@@ -70,7 +70,7 @@ window.renderStatistics = function(ctx, names, times) {
 
   // Рисуем колонки и пишем текст
   ctx.textAlign = 'start';
-  for(i = 0; i < times.length; i++) {
+  for (i = 0; i < times.length; i++) {
 
     // Высота текущей колонки
     var columnHeight = Math.floor(times[i] / step);
@@ -80,7 +80,7 @@ window.renderStatistics = function(ctx, names, times) {
     var columnY = BALOON_Y + BALOON_HEIGHT - COLUMN_BOTTOM_SPACE;
 
     // Цвет колонки
-    if(names[i] === 'Вы') {
+    if (names[i] === 'Вы') {
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
     } else {
       ctx.fillStyle = 'rgba(0, 0, 255, ' + Math.random() + ')';
@@ -96,4 +96,4 @@ window.renderStatistics = function(ctx, names, times) {
     ctx.fillText(names[i], columnX, columnY + 10);
     ctx.fillText(Math.round(times[i]), columnX, columnY - columnHeight - 20);
   }
-}
+};
