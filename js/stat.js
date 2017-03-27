@@ -24,20 +24,16 @@
 
     // Колонки статистики
     // Найдём максимальное время
-    for (var i = 0, maxTime = 0; i < times.length; i++) {
-      if (maxTime < times[i]) {
-        maxTime = times[i];
-      }
-    }
+    var maxTime = Math.max.apply(Math, times);
 
     // Посчитаем, сколько можно отобразить миллисекунд на 1px гистограммы
     var step = Math.floor(maxTime / HISTOGRAM_HEIGHT);
 
     // Рисуем колонки и пишем текст
-    for (i = 0; i < times.length; i++) {
+    times.forEach(function (time, i) {
 
       // Высота текущей колонки
-      var columnHeight = Math.floor(times[i] / step);
+      var columnHeight = Math.floor(time / step);
 
       // Посчитаем размеры и запомним для будущих вызовов
       var columnX = CLOUD_X + COLUMN_LEFT_SPACE + i * (COLUMN_WIDTH + COLUMN_INDENT);
@@ -50,13 +46,13 @@
         ctx.fillStyle = 'rgba(0, 0, 255, ' + Math.random() + ')';
       }
 
-      // Рисуем колонку и подписи к ней
+      // Рисуем колонку
       ctx.fillRect(columnX, columnY - columnHeight, COLUMN_WIDTH, columnHeight);
 
-      // Пишем текст
+      // Пишем подписи
       writeText(ctx, columnX, columnY + 10, names[i]);
       writeText(ctx, columnX, columnY - columnHeight - 20, Math.round(times[i]));
-    }
+    });
   };
 
   // Функция рисования облачка с тенью
