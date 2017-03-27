@@ -13,17 +13,14 @@
     var COLUMN_BOTTOM_SPACE = 40; // Отспут колонки от нижнего края облачка
     var COLUMN_LEFT_SPACE = 40; // Отспут колонки от левого края облачка
     var HISTOGRAM_HEIGHT = 150; // Высота гистограммы
+    var FONT_COLOR = 'black'; // Цвет текста в статистике
 
     // Нарисуем облачко с тенью
     renderCloud(ctx, CLOUD_X, CLOUD_Y, CLOUD_WIDTH, CLOUD_HEIGHT);
 
-    // Текст
-    ctx.font = '16px PT Mono';
-    ctx.textBaseline = 'hanging';
-    ctx.textAlign = 'center';
-    ctx.fillStyle = 'black';
-    ctx.fillText('Ура, Вы победили!', CLOUD_X + CLOUD_WIDTH / 2, CLOUD_Y + 10);
-    ctx.fillText('Список результатов:', CLOUD_X + CLOUD_WIDTH / 2, CLOUD_Y + 30);
+    // Напишем заголовок
+    writeText(ctx, CLOUD_X + CLOUD_WIDTH / 2, CLOUD_Y + 10, 'Ура, Вы победили!', FONT_COLOR, 'center');
+    writeText(ctx, CLOUD_X + CLOUD_WIDTH / 2, CLOUD_Y + 30, 'Список результатов:', FONT_COLOR, 'center');
 
     // Колонки статистики
     // Найдём максимальное время
@@ -37,7 +34,6 @@
     var step = Math.floor(maxTime / HISTOGRAM_HEIGHT);
 
     // Рисуем колонки и пишем текст
-    ctx.textAlign = 'start';
     for (i = 0; i < times.length; i++) {
 
       // Высота текущей колонки
@@ -57,12 +53,9 @@
       // Рисуем колонку и подписи к ней
       ctx.fillRect(columnX, columnY - columnHeight, COLUMN_WIDTH, columnHeight);
 
-      // Цвет текста
-      ctx.fillStyle = 'black';
-
       // Пишем текст
-      ctx.fillText(names[i], columnX, columnY + 10);
-      ctx.fillText(Math.round(times[i]), columnX, columnY - columnHeight - 20);
+      writeText(ctx, columnX, columnY + 10, names[i]);
+      writeText(ctx, columnX, columnY - columnHeight - 20, Math.round(times[i]));
     }
   };
 
@@ -97,4 +90,13 @@
     ctx.stroke();
   }
 
+  // Функция вывода текста
+  function writeText(ctx, x, y, text, color, align) {
+    ctx.font = '16px PT Mono';
+    ctx.textBaseline = 'hanging';
+    ctx.textAlign = align || 'start';
+    ctx.fillStyle = color || 'black';
+    text = text || '';
+    ctx.fillText(text, x, y);
+  }
 }(window));
