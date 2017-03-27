@@ -35,16 +35,12 @@
       // Высота текущей колонки
       var columnHeight = Math.floor(time / step);
 
-      // Посчитаем размеры и запомним для будущих вызовов
+      // Зададим цвет колонки
+      ctx.fillStyle = createColor(names[i]);
+
+      // Посчитаем координаты
       var columnX = CLOUD_X + COLUMN_LEFT_SPACE + i * (COLUMN_WIDTH + COLUMN_INDENT);
       var columnY = CLOUD_Y + CLOUD_HEIGHT - COLUMN_BOTTOM_SPACE;
-
-      // Цвет колонки
-      if (names[i] === 'Вы') {
-        ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-      } else {
-        ctx.fillStyle = 'rgba(0, 0, 255, ' + Math.random() + ')';
-      }
 
       // Рисуем колонку
       ctx.fillRect(columnX, columnY - columnHeight, COLUMN_WIDTH, columnHeight);
@@ -94,5 +90,13 @@
     ctx.fillStyle = color || 'black';
     text = text || '';
     ctx.fillText(text, x, y);
+  }
+
+  // Функция получения цвета колонки
+  function createColor(name) {
+    if (name === 'Вы') {
+      return 'rgba(255, 0, 0, 1)';
+    }
+    return 'rgba(0, 0, 255, ' + Math.random() + ')';
   }
 }(window));
