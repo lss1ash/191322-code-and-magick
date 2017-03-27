@@ -12,42 +12,33 @@ window.renderStatistics = function (ctx, names, times) {
   var COLUMN_LEFT_SPACE = 40; // Отспут колонки от левого края облачка
   var HISTOGRAM_HEIGHT = 150; // Высота гистограммы
 
-  // Просто прямоугольничек в качестве облачка
-  // // Тень под облачком
-  // ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-  // ctx.fillRect(BALOON_X + 10, BALOON_Y + 10, BALOON_WIDTH, BALOON_HEIGHT);
-  // // Облачко
-  // ctx.fillStyle = 'white';
-  // ctx.fillRect(BALOON_X, BALOON_Y, BALOON_WIDTH, BALOON_HEIGHT);
+  // Функция отрисовки облачка
+  var drawBaloon = function (color, shift, stroke) {
+    color = color || 'white';
+    shift = shift || 0;
+    var quadraticStep = 20; // Параметр величины скругления
+    // Рисуем фигуру
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(BALOON_X + shift, BALOON_Y + quadraticStep + shift);
+    ctx.quadraticCurveTo(BALOON_X + shift, BALOON_Y + shift, BALOON_X + quadraticStep + shift, BALOON_Y + shift);
+    ctx.lineTo(BALOON_X + BALOON_WIDTH - quadraticStep + shift, BALOON_Y + shift);
+    ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH + shift, BALOON_Y + shift, BALOON_X + BALOON_WIDTH + shift, BALOON_Y + quadraticStep + shift);
+    ctx.lineTo(BALOON_X + BALOON_WIDTH + shift, BALOON_Y + BALOON_HEIGHT - quadraticStep + shift);
+    ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH + shift, BALOON_Y + BALOON_HEIGHT + shift, BALOON_X + BALOON_WIDTH - quadraticStep + shift, BALOON_Y + +BALOON_HEIGHT + shift);
+    ctx.lineTo(BALOON_X + quadraticStep + shift, BALOON_Y + BALOON_HEIGHT + shift);
+    ctx.quadraticCurveTo(BALOON_X + shift, BALOON_Y + BALOON_HEIGHT + shift, BALOON_X + shift, BALOON_Y + BALOON_HEIGHT - quadraticStep + shift);
+    ctx.lineTo(BALOON_X + shift, BALOON_Y + quadraticStep + shift);
+    ctx.fill();
+    if (stroke === true) {
+      ctx.stroke();
+    }
+  };
 
   // Тень под облачком
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-  var quadraticStep = 20;
-  ctx.beginPath();
-  ctx.moveTo(BALOON_X + 10, BALOON_Y + quadraticStep + 10);
-  ctx.quadraticCurveTo(BALOON_X + 10, BALOON_Y + 10, BALOON_X + quadraticStep + 10, BALOON_Y + 10);
-  ctx.lineTo(BALOON_X + BALOON_WIDTH - quadraticStep + 10, BALOON_Y + 10);
-  ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH + 10, BALOON_Y + 10, BALOON_X + BALOON_WIDTH + 10, BALOON_Y + quadraticStep + 10);
-  ctx.lineTo(BALOON_X + BALOON_WIDTH + 10, BALOON_Y + BALOON_HEIGHT - quadraticStep + 10);
-  ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH + 10, BALOON_Y + BALOON_HEIGHT + 10, BALOON_X + BALOON_WIDTH - quadraticStep + 10, BALOON_Y + +BALOON_HEIGHT + 10);
-  ctx.lineTo(BALOON_X + quadraticStep + 10, BALOON_Y + BALOON_HEIGHT + 10);
-  ctx.quadraticCurveTo(BALOON_X + 10, BALOON_Y + BALOON_HEIGHT + 10, BALOON_X + 10, BALOON_Y + BALOON_HEIGHT - quadraticStep + 10);
-  ctx.fill();
-
+  drawBaloon('rgba(0, 0, 0, 0.7)', 10, false);
   // Облачко
-  ctx.fillStyle = 'white';
-  ctx.beginPath();
-  ctx.moveTo(BALOON_X, BALOON_Y + quadraticStep);
-  ctx.quadraticCurveTo(BALOON_X, BALOON_Y, BALOON_X + quadraticStep, BALOON_Y);
-  ctx.lineTo(BALOON_X + BALOON_WIDTH - quadraticStep, BALOON_Y);
-  ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH, BALOON_Y, BALOON_X + BALOON_WIDTH, BALOON_Y + quadraticStep);
-  ctx.lineTo(BALOON_X + BALOON_WIDTH, BALOON_Y + BALOON_HEIGHT - quadraticStep);
-  ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH, BALOON_Y + BALOON_HEIGHT, BALOON_X + BALOON_WIDTH - quadraticStep, BALOON_Y + +BALOON_HEIGHT);
-  ctx.lineTo(BALOON_X + quadraticStep, BALOON_Y + BALOON_HEIGHT);
-  ctx.quadraticCurveTo(BALOON_X, BALOON_Y + BALOON_HEIGHT, BALOON_X, BALOON_Y + BALOON_HEIGHT - quadraticStep);
-  ctx.lineTo(BALOON_X, BALOON_Y + quadraticStep);
-  ctx.fill();
-  ctx.stroke();
+  drawBaloon('white', 0, true);
 
   // Текст
   ctx.font = '16px PT Mono';
