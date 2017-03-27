@@ -4,10 +4,10 @@
 
   window.renderStatistics = function (ctx, names, times) {
     // Определим параметры
-    var BALOON_X = 100; // Координата X начала облачка
-    var BALOON_Y = 10;  // Координата Y начала облачка
-    var BALOON_WIDTH = 420; // Ширина облачка
-    var BALOON_HEIGHT = 270;// Высота облачка
+    var CLOUD_X = 100; // Координата X начала облачка
+    var CLOUD_Y = 10;  // Координата Y начала облачка
+    var CLOUD_WIDTH = 420; // Ширина облачка
+    var CLOUD_HEIGHT = 270;// Высота облачка
     var COLUMN_WIDTH = 40; // Ширина колонки статистики
     var COLUMN_INDENT = 50; // Расстояние между колонками
     var COLUMN_BOTTOM_SPACE = 40; // Отспут колонки от нижнего края облачка
@@ -15,15 +15,15 @@
     var HISTOGRAM_HEIGHT = 150; // Высота гистограммы
 
     // Нарисуем облачко с тенью
-    renderCloud(ctx, BALOON_X, BALOON_Y, BALOON_WIDTH, BALOON_HEIGHT);
+    renderCloud(ctx, CLOUD_X, CLOUD_Y, CLOUD_WIDTH, CLOUD_HEIGHT);
 
     // Текст
     ctx.font = '16px PT Mono';
     ctx.textBaseline = 'hanging';
     ctx.textAlign = 'center';
     ctx.fillStyle = 'black';
-    ctx.fillText('Ура, Вы победили!', BALOON_X + BALOON_WIDTH / 2, BALOON_Y + 10);
-    ctx.fillText('Список результатов:', BALOON_X + BALOON_WIDTH / 2, BALOON_Y + 30);
+    ctx.fillText('Ура, Вы победили!', CLOUD_X + CLOUD_WIDTH / 2, CLOUD_Y + 10);
+    ctx.fillText('Список результатов:', CLOUD_X + CLOUD_WIDTH / 2, CLOUD_Y + 30);
 
     // Колонки статистики
     // Найдём максимальное время
@@ -44,8 +44,8 @@
       var columnHeight = Math.floor(times[i] / step);
 
       // Посчитаем размеры и запомним для будущих вызовов
-      var columnX = BALOON_X + COLUMN_LEFT_SPACE + i * (COLUMN_WIDTH + COLUMN_INDENT);
-      var columnY = BALOON_Y + BALOON_HEIGHT - COLUMN_BOTTOM_SPACE;
+      var columnX = CLOUD_X + COLUMN_LEFT_SPACE + i * (COLUMN_WIDTH + COLUMN_INDENT);
+      var columnY = CLOUD_Y + CLOUD_HEIGHT - COLUMN_BOTTOM_SPACE;
 
       // Цвет колонки
       if (names[i] === 'Вы') {
@@ -66,6 +66,7 @@
     }
   };
 
+  // Функция рисования облачка с тенью
   function renderCloud(ctx, x, y, width, height) {
     // Тень под облачком
     ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
@@ -95,4 +96,5 @@
     // Добавим обводочку облачку
     ctx.stroke();
   }
+
 }(window));
