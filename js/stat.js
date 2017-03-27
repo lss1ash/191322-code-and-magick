@@ -14,33 +14,8 @@
     var COLUMN_LEFT_SPACE = 40; // Отспут колонки от левого края облачка
     var HISTOGRAM_HEIGHT = 150; // Высота гистограммы
 
-    // Тень под облачком
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-    ctx.shadowOffsetY = 10;
-    ctx.shadowOffsetX = 10;
-
-    // Облачко
-    var quadraticStep = 20; // Параметр величины скругления
-    ctx.fillStyle = 'white';
-    ctx.beginPath();
-    ctx.moveTo(BALOON_X, BALOON_Y + quadraticStep);
-    ctx.quadraticCurveTo(BALOON_X, BALOON_Y, BALOON_X + quadraticStep, BALOON_Y);
-    ctx.lineTo(BALOON_X + BALOON_WIDTH - quadraticStep, BALOON_Y);
-    ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH, BALOON_Y, BALOON_X + BALOON_WIDTH, BALOON_Y + quadraticStep);
-    ctx.lineTo(BALOON_X + BALOON_WIDTH, BALOON_Y + BALOON_HEIGHT - quadraticStep);
-    ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH, BALOON_Y + BALOON_HEIGHT, BALOON_X + BALOON_WIDTH - quadraticStep, BALOON_Y + +BALOON_HEIGHT);
-    ctx.lineTo(BALOON_X + quadraticStep, BALOON_Y + BALOON_HEIGHT);
-    ctx.quadraticCurveTo(BALOON_X, BALOON_Y + BALOON_HEIGHT, BALOON_X, BALOON_Y + BALOON_HEIGHT - quadraticStep);
-    ctx.lineTo(BALOON_X, BALOON_Y + quadraticStep);
-    ctx.fill();
-
-    // Тень убрать
-    ctx.shadowColor = 'transparent';
-    ctx.shadowOffsetY = 0;
-    ctx.shadowOffsetX = 0;
-
-    // Добавим обводочку облачку
-    ctx.stroke();
+    // Нарисуем облачко с тенью
+    renderCloud(ctx, BALOON_X, BALOON_Y, BALOON_WIDTH, BALOON_HEIGHT);
 
     // Текст
     ctx.font = '16px PT Mono';
@@ -90,4 +65,34 @@
       ctx.fillText(Math.round(times[i]), columnX, columnY - columnHeight - 20);
     }
   };
+
+  function renderCloud(ctx, x, y, width, height) {
+    // Тень под облачком
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+    ctx.shadowOffsetY = 10;
+    ctx.shadowOffsetX = 10;
+
+    // Облачко
+    var quadraticStep = 20; // Параметр величины скругления
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.moveTo(x, y + quadraticStep);
+    ctx.quadraticCurveTo(x, y, x + quadraticStep, y);
+    ctx.lineTo(x + width - quadraticStep, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + quadraticStep);
+    ctx.lineTo(x + width, y + height - quadraticStep);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - quadraticStep, y + +height);
+    ctx.lineTo(x + quadraticStep, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - quadraticStep);
+    ctx.lineTo(x, y + quadraticStep);
+    ctx.fill();
+
+    // Тень убрать
+    ctx.shadowColor = 'transparent';
+    ctx.shadowOffsetY = 0;
+    ctx.shadowOffsetX = 0;
+
+    // Добавим обводочку облачку
+    ctx.stroke();
+  }
 }(window));
