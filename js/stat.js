@@ -12,33 +12,33 @@ window.renderStatistics = function (ctx, names, times) {
   var COLUMN_LEFT_SPACE = 40; // Отспут колонки от левого края облачка
   var HISTOGRAM_HEIGHT = 150; // Высота гистограммы
 
-  // Функция отрисовки облачка
-  var drawBaloon = function (color, shift, stroke) {
-    color = color || 'white';
-    shift = shift || 0;
-    var quadraticStep = 20; // Параметр величины скругления
-    // Рисуем фигуру
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.moveTo(BALOON_X + shift, BALOON_Y + quadraticStep + shift);
-    ctx.quadraticCurveTo(BALOON_X + shift, BALOON_Y + shift, BALOON_X + quadraticStep + shift, BALOON_Y + shift);
-    ctx.lineTo(BALOON_X + BALOON_WIDTH - quadraticStep + shift, BALOON_Y + shift);
-    ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH + shift, BALOON_Y + shift, BALOON_X + BALOON_WIDTH + shift, BALOON_Y + quadraticStep + shift);
-    ctx.lineTo(BALOON_X + BALOON_WIDTH + shift, BALOON_Y + BALOON_HEIGHT - quadraticStep + shift);
-    ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH + shift, BALOON_Y + BALOON_HEIGHT + shift, BALOON_X + BALOON_WIDTH - quadraticStep + shift, BALOON_Y + +BALOON_HEIGHT + shift);
-    ctx.lineTo(BALOON_X + quadraticStep + shift, BALOON_Y + BALOON_HEIGHT + shift);
-    ctx.quadraticCurveTo(BALOON_X + shift, BALOON_Y + BALOON_HEIGHT + shift, BALOON_X + shift, BALOON_Y + BALOON_HEIGHT - quadraticStep + shift);
-    ctx.lineTo(BALOON_X + shift, BALOON_Y + quadraticStep + shift);
-    ctx.fill();
-    if (stroke === true) {
-      ctx.stroke();
-    }
-  };
-
   // Тень под облачком
-  drawBaloon('rgba(0, 0, 0, 0.7)', 10, false);
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+  ctx.shadowOffsetY = 10;
+  ctx.shadowOffsetX = 10;
+
   // Облачко
-  drawBaloon('white', 0, true);
+  var quadraticStep = 20; // Параметр величины скругления
+  ctx.fillStyle = 'white';
+  ctx.beginPath();
+  ctx.moveTo(BALOON_X, BALOON_Y + quadraticStep);
+  ctx.quadraticCurveTo(BALOON_X, BALOON_Y, BALOON_X + quadraticStep, BALOON_Y);
+  ctx.lineTo(BALOON_X + BALOON_WIDTH - quadraticStep, BALOON_Y);
+  ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH, BALOON_Y, BALOON_X + BALOON_WIDTH, BALOON_Y + quadraticStep);
+  ctx.lineTo(BALOON_X + BALOON_WIDTH, BALOON_Y + BALOON_HEIGHT - quadraticStep);
+  ctx.quadraticCurveTo(BALOON_X + BALOON_WIDTH, BALOON_Y + BALOON_HEIGHT, BALOON_X + BALOON_WIDTH - quadraticStep, BALOON_Y + +BALOON_HEIGHT);
+  ctx.lineTo(BALOON_X + quadraticStep, BALOON_Y + BALOON_HEIGHT);
+  ctx.quadraticCurveTo(BALOON_X, BALOON_Y + BALOON_HEIGHT, BALOON_X, BALOON_Y + BALOON_HEIGHT - quadraticStep);
+  ctx.lineTo(BALOON_X, BALOON_Y + quadraticStep);
+  ctx.fill();
+
+  // Тень убрать
+  ctx.shadowColor = 'transparent';
+  ctx.shadowOffsetY = 0;
+  ctx.shadowOffsetX = 0;
+
+  // Добавим обводочку облачку
+  ctx.stroke();
 
   // Текст
   ctx.font = '16px PT Mono';
