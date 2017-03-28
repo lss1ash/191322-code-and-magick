@@ -181,13 +181,11 @@
   function getWizardX(width) {
     return width / 2 - wizardWidth / 2;
   }
-  // Напишите функцию так, чтобы маг появлялся на высоте две трети игрового поля от земли.
-  // Какая точка мага должна быть на высоте 2/3 от земли?
-  // Будем считать, что по аналогии с шириной (середина)
   function getWizardY(height) {
-    return height * 1 / 3 - getWizardHeight() / 2;
+    return height / 3;
   }
 </script>
+<script src="js/stat.js"></script>
 <script src="js/game.js"></script>
 </body>
 </html>
