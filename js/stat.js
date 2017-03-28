@@ -1,6 +1,6 @@
+'use strict';
 
 (function (window) {
-  'use strict';
 
   window.renderStatistics = function (ctx, names, times) {
     // Определим параметры
