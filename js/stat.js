@@ -97,6 +97,6 @@
     if (name === 'Вы') {
       return 'rgba(255, 0, 0, 1)';
     }
-    return 'rgba(0, 0, 255, ' + Math.random() + ')';
+    return 'rgba(0, 0, 255, ' + (Math.random() * 0.9 + 0.1) + ')';
   }
 }(window));
