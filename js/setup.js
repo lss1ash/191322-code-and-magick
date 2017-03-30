@@ -13,6 +13,11 @@
     wizards.push(createWizard());
   }
 
+  var similarListElement = setupDialog.querySelector('.setup-similar-list');
+  var similarWizardTemplate = document.getElementById('similar-wizard-template').content;
+
+  setupDialog.querySelector('.setup-similar').classList.remove('hidden');
+
   function getRandom(min, max) {
     return Math.round(Math.random() * (max - min) + min);
   }
@@ -23,5 +28,15 @@
       coatColor: COAT_COLORS[getRandom(0, COAT_COLORS.length - 1)],
       eyesColor: EYES_COLORS[getRandom(0, EYES_COLORS.length - 1)]
     };
+  }
+
+  function renderWizard(wizard) {
+    var wizardElement = similarWizardTemplate.cloneNode(true);
+
+    wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
+    wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
+    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+
+    return wizardElement;
   }
 }());
