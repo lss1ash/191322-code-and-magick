@@ -15,6 +15,12 @@
 
   var similarListElement = setupDialog.querySelector('.setup-similar-list');
   var similarWizardTemplate = document.getElementById('similar-wizard-template').content;
+  var fragment = document.createDocumentFragment();
+
+  wizards.forEach(function (wizard) {
+    fragment.appendChild(renderWizard(wizard));
+  });
+  similarListElement.appendChild(fragment);
 
   setupDialog.querySelector('.setup-similar').classList.remove('hidden');
 
