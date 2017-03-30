@@ -9,9 +9,9 @@
   var setupDialog = document.querySelector('.setup');
   setupDialog.classList.remove('hidden');
 
-  for (var i = 0, wizards = []; i < 4; i++) {
-    wizards.push(createWizard());
-  }
+  var wizards = Array.apply(null, {length: 4}).map(function () {
+    return createWizard();
+  });
 
   var similarListElement = setupDialog.querySelector('.setup-similar-list');
   var similarWizardTemplate = document.getElementById('similar-wizard-template').content;
