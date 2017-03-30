@@ -8,4 +8,20 @@
 
   var setupDialog = document.querySelector('.setup');
   setupDialog.classList.remove('hidden');
+
+  for (var i = 0, wizards = []; i < 4; i++) {
+    wizards.push(createWizard());
+  }
+
+  function getRandom(min, max) {
+    return Math.round(Math.random() * (max - min) + min);
+  }
+
+  function createWizard() {
+    return {
+      name: WIZARD_NAMES[getRandom(0, WIZARD_NAMES.length - 1)] + WIZARD_SURNAMES[getRandom(0, WIZARD_SURNAMES.length - 1)],
+      coatColor: COAT_COLORS[getRandom(0, COAT_COLORS.length - 1)],
+      eyesColor: EYES_COLORS[getRandom(0, EYES_COLORS.length - 1)]
+    };
+  }
 }());
