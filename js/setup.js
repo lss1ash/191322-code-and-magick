@@ -30,7 +30,7 @@
 
   function createWizard() {
     return {
-      name: WIZARD_NAMES[getRandom(0, WIZARD_NAMES.length - 1)] + WIZARD_SURNAMES[getRandom(0, WIZARD_SURNAMES.length - 1)],
+      name: WIZARD_NAMES[getRandom(0, WIZARD_NAMES.length - 1)] + ' ' + WIZARD_SURNAMES[getRandom(0, WIZARD_SURNAMES.length - 1)],
       coatColor: COAT_COLORS[getRandom(0, COAT_COLORS.length - 1)],
       eyesColor: EYES_COLORS[getRandom(0, EYES_COLORS.length - 1)]
     };
