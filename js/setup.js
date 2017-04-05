@@ -7,7 +7,7 @@
   var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 
   var setupDialog = document.querySelector('.setup');
-  setupDialog.classList.remove('hidden');
+  // setupDialog.classList.remove('hidden');
 
   var wizards = Array.apply(null, {length: 4}).map(function () {
     return createWizard();
@@ -23,6 +23,29 @@
   similarListElement.appendChild(fragment);
 
   setupDialog.querySelector('.setup-similar').classList.remove('hidden');
+
+  var setupOpen = document.querySelector('.setup-open');
+  var setupOpenIcon = setupOpen.querySelector('.setup-open-icon');
+  var setupClose = setupDialog.querySelector('.setup-close');
+
+  setupOpenIcon.setAttribute('tabindex', 0);
+
+  setupOpen.addEventListener('click', openSetupDialog);
+  setupOpenIcon.addEventListener('keydown', openSetupDialog);
+  setupClose.addEventListener('click', closeSetupDialog);
+
+  function openSetupDialog(event) {
+    if (event.type === 'keydown') {
+      if (event.keyCode !== 13) {
+        return;
+      }
+    }
+    setupDialog.classList.remove('hidden');
+  }
+
+  function closeSetupDialog() {
+    setupDialog.classList.add('hidden');
+  }
 
   function getRandomItem(items) {
     var min = 0;
