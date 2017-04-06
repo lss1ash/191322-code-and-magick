@@ -78,7 +78,11 @@
   function getRandomItem(items) {
     var min = 0;
     var max = items.length - 1;
-    return items[Math.round(Math.random() * (max - min) + min)];
+    return items[getRandomNumber(min, max)];
+  }
+
+  function getRandomNumber(min, max) {
+    return Math.round(Math.random() * (max - min) + min);
   }
 
   function createWizard() {
