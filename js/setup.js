@@ -5,9 +5,10 @@
   var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
   var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
   var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
+  var KEYCODE_ENTER = 13;
+  var KEYCODE_ESC = 27;
 
   var setupDialog = document.querySelector('.setup');
-  // setupDialog.classList.remove('hidden');
 
   var wizards = Array.apply(null, {length: 4}).map(function () {
     return createWizard();
@@ -27,24 +28,45 @@
   var setupOpen = document.querySelector('.setup-open');
   var setupOpenIcon = setupOpen.querySelector('.setup-open-icon');
   var setupClose = setupDialog.querySelector('.setup-close');
+  var setupSubmit = setupDialog.querySelector('.setup-submit');
+  var setupUserName = setupDialog.querySelector('.setup-user-name');
+  addDialogEventListeners();
 
-  setupOpenIcon.setAttribute('tabindex', 0);
+  function addDialogEventListeners() {
+    setupOpenIcon.setAttribute('tabindex', 0);
+    setupClose.setAttribute('tabindex', 0);
 
-  setupOpen.addEventListener('click', openSetupDialog);
-  setupOpenIcon.addEventListener('keydown', openSetupDialog);
-  setupClose.addEventListener('click', closeSetupDialog);
-
-  function openSetupDialog(event) {
-    if (event.type === 'keydown') {
-      if (event.keyCode !== 13) {
-        return;
-      }
-    }
-    setupDialog.classList.remove('hidden');
+    setupOpen.addEventListener('click', openSetupDialog);
+    setupOpenIcon.addEventListener('keydown', openSetupDialog);
+    setupClose.addEventListener('click', closeSetupDialog);
+    setupClose.addEventListener('keydown', closeSetupDialog);
+    setupSubmit.addEventListener('click', closeSetupDialog);
+    setupSubmit.addEventListener('keydown', closeSetupDialog);
+    document.body.addEventListener('keydown', closeSetupDialog);
   }
 
-  function closeSetupDialog() {
-    setupDialog.classList.add('hidden');
+  function openSetupDialog(event) {
+    if (event.type === 'click' || event.type === 'keydown' && event.keyCode === KEYCODE_ENTER) {
+      setupDialog.classList.remove('hidden');
+    }
+  }
+
+  function closeSetupDialog(event) {
+    if (event.target === setupSubmit) {
+      event.preventDefault();
+    }
+    if (event.type === 'click') {
+      setupDialog.classList.add('hidden');
+    }
+    if (event.type === 'keydown') {
+      if (event.keyCode === KEYCODE_ESC && event.target !== setupUserName || event.keyCode === KEYCODE_ENTER && event.currentTarget !== document.body) {
+        setupDialog.classList.add('hidden');
+      }
+    }
+  }
+
+  function validateSetupForm() {
+    return true;
   }
 
   function getRandomItem(items) {
