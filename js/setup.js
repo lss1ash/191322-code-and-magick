@@ -74,9 +74,6 @@
   function closeSetupDialog(event) {
     if (event.target === setupSubmit) {
       event.preventDefault();
-      if (!validateSetupForm()) {
-        return;
-      }
     }
     if (event.type === 'click') {
       setupDialog.classList.add('hidden');
@@ -86,13 +83,6 @@
         setupDialog.classList.add('hidden');
       }
     }
-  }
-
-  function validateSetupForm() {
-    if (setupUserName.value === '' || setupUserName.value.length > 50) {
-      return false;
-    }
-    return true;
   }
 
   function getRandomItem(items) {
