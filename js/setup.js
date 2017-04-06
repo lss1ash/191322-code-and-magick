@@ -74,6 +74,9 @@
   function closeSetupDialog(event) {
     if (event.target === setupSubmit) {
       event.preventDefault();
+      if (!setupUserName.validity.valid) {
+        return;
+      }
     }
     if (event.type === 'click') {
       setupDialog.classList.add('hidden');
