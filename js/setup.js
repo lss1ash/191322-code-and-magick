@@ -19,6 +19,24 @@
     return Math.round(Math.random() * (max - min) + min);
   }
 
+  function createWizard() {
+    return {
+      name: getRandomItem(WIZARD_NAMES) + ' ' + getRandomItem(WIZARD_SURNAMES),
+      coatColor: getRandomItem(COAT_COLORS),
+      eyesColor: getRandomItem(EYES_COLORS)
+    };
+  }
+
+  function renderWizard(wizard) {
+    var wizardElement = similarWizardTemplate.cloneNode(true);
+
+    wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
+    wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
+    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+
+    return wizardElement;
+  }
+
   var setupDialog = document.querySelector('.setup');
   var similarListElement = setupDialog.querySelector('.setup-similar-list');
   var similarWizardTemplate = document.getElementById('similar-wizard-template').content;
@@ -64,59 +82,53 @@
     }
   };
 
-  addDialogEventListeners();
-
-  function addDialogEventListeners() {
-    setupOpen.addEventListener('click', openSetupDialog);
-    setupOpenIcon.addEventListener('keydown', openSetupDialog);
-    setupClose.addEventListener('click', closeSetupDialog);
-    setupClose.addEventListener('keydown', closeSetupDialog);
-    setupSubmit.addEventListener('click', closeSetupDialog);
-    setupSubmit.addEventListener('keydown', closeSetupDialog);
-    document.body.addEventListener('keydown', closeSetupDialog);
-  }
-
-  function openSetupDialog(event) {
-    if (event.type === 'click' || event.type === 'keydown' && event.keyCode === KEYCODE_ENTER) {
-      setupDialog.classList.remove('hidden');
-      mainWizard.addEventListeners();
-    }
-  }
-
-  function closeSetupDialog(event) {
-    if (event.target === setupSubmit) {
-      event.preventDefault();
-      if (!setupUserName.validity.valid) {
-        return;
+  var setupMainWizardDialog = {
+    open: function (event) {
+      if (event.type === 'click' || event.type === 'keydown' && event.keyCode === KEYCODE_ENTER) {
+        setupDialog.classList.remove('hidden');
+        mainWizard.addEventListeners();
+        setupMainWizardDialog.removeOpenEventListeners();
+        setupMainWizardDialog.addCloseEventListeners();
       }
-    }
-    if (event.type === 'click') {
-      setupDialog.classList.add('hidden');
-      mainWizard.removeEventListeners();
-    }
-    if (event.type === 'keydown') {
-      if (event.keyCode === KEYCODE_ESC && event.target !== setupUserName || event.keyCode === KEYCODE_ENTER && event.currentTarget !== document.body) {
+    },
+    close: function (event) {
+      var escapeOrEnter = event.keyCode === KEYCODE_ESC && event.target !== setupUserName || event.keyCode === KEYCODE_ENTER && event.currentTarget !== document;
+      if (event.type === 'click' || event.type === 'keydown' && escapeOrEnter) {
+        if (event.target === setupSubmit) {
+          event.preventDefault();
+          if (!setupUserName.validity.valid) {
+            return;
+          }
+        }
         setupDialog.classList.add('hidden');
         mainWizard.removeEventListeners();
+        setupMainWizardDialog.removeCloseEventListeners();
+        setupMainWizardDialog.addOpenEventListeners();
       }
+    },
+    addOpenEventListeners: function () {
+      setupOpen.addEventListener('click', this.open);
+      setupOpenIcon.addEventListener('keydown', this.open);
+    },
+    addCloseEventListeners: function () {
+      setupClose.addEventListener('click', this.close);
+      setupClose.addEventListener('keydown', this.close);
+      setupSubmit.addEventListener('click', this.close);
+      setupSubmit.addEventListener('keydown', this.close);
+      document.addEventListener('keydown', this.close);
+    },
+    removeOpenEventListeners: function () {
+      setupOpen.removeEventListener('click', this.open);
+      setupOpenIcon.removeEventListener('keydown', this.open);
+    },
+    removeCloseEventListeners: function () {
+      setupClose.removeEventListener('click', this.close);
+      setupClose.removeEventListener('keydown', this.close);
+      setupSubmit.removeEventListener('click', this.close);
+      setupSubmit.removeEventListener('keydown', this.close);
+      document.removeEventListener('keydown', this.close);
     }
-  }
+  };
 
-  function createWizard() {
-    return {
-      name: getRandomItem(WIZARD_NAMES) + ' ' + getRandomItem(WIZARD_SURNAMES),
-      coatColor: getRandomItem(COAT_COLORS),
-      eyesColor: getRandomItem(EYES_COLORS)
-    };
-  }
-
-  function renderWizard(wizard) {
-    var wizardElement = similarWizardTemplate.cloneNode(true);
-
-    wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-    wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
-
-    return wizardElement;
-  }
+  setupMainWizardDialog.addOpenEventListeners();
 }());
