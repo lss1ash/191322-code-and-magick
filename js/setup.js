@@ -53,9 +53,6 @@
   }
 
   function addDialogEventListeners() {
-    setupOpenIcon.setAttribute('tabindex', 0);
-    setupClose.setAttribute('tabindex', 0);
-
     setupOpen.addEventListener('click', openSetupDialog);
     setupOpenIcon.addEventListener('keydown', openSetupDialog);
     setupClose.addEventListener('click', closeSetupDialog);
