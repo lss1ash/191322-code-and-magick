@@ -9,48 +9,62 @@
   var KEYCODE_ENTER = 13;
   var KEYCODE_ESC = 27;
 
+  function getRandomItem(items) {
+    var min = 0;
+    var max = items.length - 1;
+    return items[getRandomNumber(min, max)];
+  }
+
+  function getRandomNumber(min, max) {
+    return Math.round(Math.random() * (max - min) + min);
+  }
+
   var setupDialog = document.querySelector('.setup');
-
-  var wizards = Array.apply(null, {length: 4}).map(function () {
-    return createWizard();
-  });
-
   var similarListElement = setupDialog.querySelector('.setup-similar-list');
   var similarWizardTemplate = document.getElementById('similar-wizard-template').content;
-  var fragment = document.createDocumentFragment();
-
-  wizards.forEach(function (wizard) {
-    fragment.appendChild(renderWizard(wizard));
-  });
-  similarListElement.appendChild(fragment);
-
-  setupDialog.querySelector('.setup-similar').classList.remove('hidden');
-
   var setupOpen = document.querySelector('.setup-open');
   var setupOpenIcon = setupOpen.querySelector('.setup-open-icon');
   var setupClose = setupDialog.querySelector('.setup-close');
   var setupSubmit = setupDialog.querySelector('.setup-submit');
   var setupUserName = setupDialog.querySelector('.setup-user-name');
-  addDialogEventListeners();
-
   var wizardCoat = setupDialog.querySelector('.wizard-coat');
   var wizardEyes = setupDialog.querySelector('.wizard-eyes');
   var fireball = setupDialog.querySelector('.setup-fireball-wrap');
-  wizardCoat.addEventListener('click', changeCoat);
-  wizardEyes.addEventListener('click', changeEyes);
-  fireball.addEventListener('click', changeFireball);
 
-  function changeCoat() {
-    wizardCoat.style.fill = getRandomItem(COAT_COLORS);
-  }
+  var wizards = Array.apply(null, {length: 4}).map(function () {
+    return createWizard();
+  });
 
-  function changeEyes() {
-    wizardEyes.style.fill = getRandomItem(EYES_COLORS);
-  }
+  var fragment = document.createDocumentFragment();
+  wizards.forEach(function (wizard) {
+    fragment.appendChild(renderWizard(wizard));
+  });
+  similarListElement.appendChild(fragment);
+  setupDialog.querySelector('.setup-similar').classList.remove('hidden');
 
-  function changeFireball() {
-    fireball.style.backgroundColor = getRandomItem(FIREBALL_COLORS);
-  }
+  var mainWizard = {
+    changeCoat: function () {
+      wizardCoat.style.fill = getRandomItem(COAT_COLORS);
+    },
+    changeEyes: function () {
+      wizardEyes.style.fill = getRandomItem(EYES_COLORS);
+    },
+    changeFireball: function () {
+      fireball.style.backgroundColor = getRandomItem(FIREBALL_COLORS);
+    },
+    addEventListeners: function () {
+      wizardCoat.addEventListener('click', this.changeCoat);
+      wizardEyes.addEventListener('click', this.changeEyes);
+      fireball.addEventListener('click', this.changeFireball);
+    },
+    removeEventListeners: function () {
+      wizardCoat.removeEventListener('click', this.changeCoat);
+      wizardEyes.removeEventListener('click', this.changeEyes);
+      fireball.removeEventListener('click', this.changeFireball);
+    }
+  };
+
+  addDialogEventListeners();
 
   function addDialogEventListeners() {
     setupOpen.addEventListener('click', openSetupDialog);
@@ -65,6 +79,7 @@
   function openSetupDialog(event) {
     if (event.type === 'click' || event.type === 'keydown' && event.keyCode === KEYCODE_ENTER) {
       setupDialog.classList.remove('hidden');
+      mainWizard.addEventListeners();
     }
   }
 
@@ -77,22 +92,14 @@
     }
     if (event.type === 'click') {
       setupDialog.classList.add('hidden');
+      mainWizard.removeEventListeners();
     }
     if (event.type === 'keydown') {
       if (event.keyCode === KEYCODE_ESC && event.target !== setupUserName || event.keyCode === KEYCODE_ENTER && event.currentTarget !== document.body) {
         setupDialog.classList.add('hidden');
+        mainWizard.removeEventListeners();
       }
     }
-  }
-
-  function getRandomItem(items) {
-    var min = 0;
-    var max = items.length - 1;
-    return items[getRandomNumber(min, max)];
-  }
-
-  function getRandomNumber(min, max) {
-    return Math.round(Math.random() * (max - min) + min);
   }
 
   function createWizard() {
