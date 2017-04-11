@@ -41,6 +41,8 @@
   var wizardCoat = setupDialog.querySelector('.wizard-coat');
   var wizardEyes = setupDialog.querySelector('.wizard-eyes');
   var fireball = setupDialog.querySelector('.setup-fireball-wrap');
+  var shopElement = document.querySelector('.setup-artifacts-shop');
+  var artifactsElement = document.querySelector('.setup-artifacts');
 
   var wizards = Array.apply(null, {length: 4}).map(function () {
     return createWizard();
@@ -64,15 +66,55 @@
     changeFireball: function () {
       fireball.style.backgroundColor = getRandomItem(FIREBALL_COLORS);
     },
+    dragItem: {
+      current: null,
+      startHandler: function (e) {
+        window.mainWizardSetup.dragItem.current = e.target;
+        // e.dataTransfer.setData('text/plain', e.target.alt);
+        artifactsElement.style.outline = '2px dashed red';
+      },
+      overHandler: function (e) {
+        e.preventDefault();
+        return false;
+      },
+      enterHandler: function (e) {
+        e.target.style.backgroundColor = 'yellow';
+        e.preventDefault();
+      },
+      leaveHandler: function (e) {
+        e.target.style.backgroundColor = '';
+        e.preventDefault();
+      },
+      dropHandler: function (e) {
+        e.target.style.backgroundColor = '';
+        // e.target.parentNode.replaceChild(window.mainWizardSetup.dragItem.current, e.target);
+        // Зафиксировать - можно перетереть все нафиг
+      },
+      endHandler: function (e) {
+        artifactsElement.style.outline = 'none';
+      }
+    },
     addEventListeners: function () {
       wizardCoat.addEventListener('click', this.changeCoat);
       wizardEyes.addEventListener('click', this.changeEyes);
       fireball.addEventListener('click', this.changeFireball);
+      shopElement.addEventListener('dragstart', this.dragItem.startHandler);
+      shopElement.addEventListener('dragend', this.dragItem.endHandler);
+      artifactsElement.addEventListener('dragover', this.dragItem.overHandler);
+      artifactsElement.addEventListener('drop', this.dragItem.dropHandler);
+      artifactsElement.addEventListener('dragenter', this.dragItem.enterHandler);
+      artifactsElement.addEventListener('dragleave', this.dragItem.leaveHandler);
     },
     removeEventListeners: function () {
       wizardCoat.removeEventListener('click', this.changeCoat);
       wizardEyes.removeEventListener('click', this.changeEyes);
       fireball.removeEventListener('click', this.changeFireball);
+      shopElement.removeEventListener('dragstart', this.dragItem.startHandler);
+      shopElement.removeEventListener('dragend', this.dragItem.endHandler);
+      artifactsElement.removeEventListener('dragover', this.dragItem.overHandler);
+      artifactsElement.removeEventListener('drop', this.dragItem.dropHandler);
+      artifactsElement.removeEventListener('dragenter', this.dragItem.enterHandler);
+      artifactsElement.removeEventListener('dragleave', this.dragItem.leaveHandler);
     }
   };
 }());
