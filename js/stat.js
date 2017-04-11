@@ -1,6 +1,6 @@
 'use strict';
 
-(function (window) {
+(function () {
 
   window.renderStatistics = function (ctx, names, times) {
     // Определим параметры
@@ -99,4 +99,4 @@
     }
     return 'rgba(0, 0, 255, ' + (Math.random() * 0.9 + 0.1) + ')';
   }
-}(window));
+}());
