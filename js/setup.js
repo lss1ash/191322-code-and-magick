@@ -69,9 +69,10 @@
     dragItem: {
       current: null,
       startHandler: function (e) {
-        window.mainWizardSetup.dragItem.current = e.target;
-        // e.dataTransfer.setData('text/plain', e.target.alt);
-        artifactsElement.style.outline = '2px dashed red';
+        if (e.target.tagName.toLowerCase() === 'img') {
+          window.mainWizardSetup.dragItem.current = e.target; // Здесь неясно - разве так правильно? Как-то странно ...
+          artifactsElement.style.outline = '2px dashed red';
+        }
       },
       overHandler: function (e) {
         e.preventDefault();
@@ -86,9 +87,11 @@
         e.preventDefault();
       },
       dropHandler: function (e) {
-        e.target.style.backgroundColor = '';
-        // e.target.parentNode.replaceChild(window.mainWizardSetup.dragItem.current, e.target);
-        // Зафиксировать - можно перетереть все нафиг
+        if (e.target.children.length === 0 && e.target.tagName.toLowerCase() !== 'img') {
+          e.target.style.backgroundColor = '';
+          artifactsElement.style.outline = 'none';
+          e.target.appendChild(window.mainWizardSetup.dragItem.current); // Тут тоже ....
+        }
       },
       endHandler: function (e) {
         artifactsElement.style.outline = 'none';
